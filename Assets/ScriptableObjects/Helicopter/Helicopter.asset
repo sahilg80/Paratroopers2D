@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a95793d1b9d56cc479e2c01f4452e968, type: 3}
+  m_Name: Helicopter
+  m_EditorClassIdentifier: 
+  Speed: 5
+  LeftSpawnLocation: {fileID: 7642195418054127571, guid: 3aea9f0b31591fa49bd92f8bf917514b, type: 3}
+  RightSpawnLocation: {fileID: 8610496899343163104, guid: 8ea2fcaf851f6234690521368011dc72, type: 3}
