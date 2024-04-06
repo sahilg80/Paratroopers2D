@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Walls
+namespace Assets.Scripts.CollisionDetectors
 {
-    public class SideWallView : MonoBehaviour
+    public class BoundaryCollisionDetector : MonoBehaviour
     {
         // Start is called before the first frame update
         void Start()
@@ -19,7 +19,7 @@ namespace Assets.Scripts.Walls
             ICollisionHandler collidedObject = collision.GetComponent<ICollisionHandler>();
             if (collidedObject != null)
             {
-                collidedObject.OnCollisionDetected();
+                collidedObject.OnCollisionWithBoundary();
             }
         }
     }

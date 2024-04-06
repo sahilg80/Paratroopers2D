@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a95793d1b9d56cc479e2c01f4452e968, type: 3}
-  m_Name: Helicopter
+  m_Script: {fileID: 11500000, guid: 29004da7427d0374e973571ab802d65b, type: 3}
+  m_Name: Trooper
   m_EditorClassIdentifier: 
-  Speed: 2.5
+  MovementSpeed: 3
+  SpriteAfterDestroy: {fileID: 21300000, guid: 69a4a70d992a7db4a8ada6eb5b811520, type: 3}

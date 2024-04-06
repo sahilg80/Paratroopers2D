@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Interfaces
 {
-    public interface ICollisionHandler
+    public interface ITriggerTrooper
     {
-        void OnCollisionWithBoundary();
+        void OnTriggerStart();
+        void OnTriggerFinish();
     }
 }

@@ -1,3 +1,4 @@
+using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,18 +6,21 @@ using UnityEngine;
 
 namespace Assets.Scripts.Troopers
 {
-    public class TrooperPool : MonoBehaviour
+    public class TrooperPool : GenericObjectPool<TrooperController>
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        private TrooperView trooperView;
+        private TrooperScriptableObject trooperSO;
 
+        public TrooperPool(TrooperView trooperPrefab, TrooperScriptableObject trooperScriptableObject)
+        {
+            trooperView = trooperPrefab;
+            trooperSO = trooperScriptableObject;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
+        public TrooperController GetTrooper() => GetItem();
 
-        }
+        public void ReturnTrooperToPool(TrooperController controller) => ReturnItem(controller);
+
+        protected override TrooperController CreateItem() => new TrooperController(trooperView, trooperSO);
     }
 }

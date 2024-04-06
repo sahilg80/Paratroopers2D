@@ -39,31 +39,42 @@ namespace Assets.Scripts.Player
             // Apply rotation
             bulletLauncher.rotation *= deltaRotation;
 
-            //Quaternion currentRotation = bulletLauncher.rotation *  deltaRotation;
-            ////bulletLauncher.Rotate(Vector2.right, direction * playerSO.RotationSpeed * Time.deltaTime);
-            //float currentZRotation = currentRotation.eulerAngles.z;
-
-            //// Calculate the target Z rotation
-            //float targetZRotation = Mathf.Clamp(currentZRotation, -maxRotationAngle, maxRotationAngle);
-
-            //// Set the new rotation
-            //bulletLauncher.rotation = Quaternion.Euler(0, 0, targetZRotation);
         }
 
 
         void HandleRot()
         {
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float rotationAmount = horizontalInput * playerSO.RotationSpeed * Time.deltaTime;
+            float direction = Input.GetAxis("Horizontal");
+            float rotationAmount = -direction * playerSO.RotationSpeed * Time.deltaTime;
+            bulletLauncher.Rotate(0f, 0f, rotationAmount);
 
-            // Calculate the current Z rotation
-            float currentZRotation = bulletLauncher.rotation.eulerAngles.z;
+            // Clamp rotation to maxRotationAngle
+            Vector3 currentRotation = bulletLauncher.rotation.eulerAngles;
+            currentRotation.z = Mathf.Clamp(currentRotation.z, -45f, 45f);
+            Debug.Log("rotating value " + currentRotation);
+            bulletLauncher.rotation = Quaternion.Euler(currentRotation);
+        }
 
-            // Calculate the target Z rotation
-            float targetZRotation = Mathf.Clamp(currentZRotation + rotationAmount, -maxRotationAngle, maxRotationAngle);
+        private void Handle()
+        {
+            float direction = Input.GetAxis("Horizontal");
+            Quaternion deltaRotation = Quaternion.Euler(0, 0, -direction * playerSO.RotationSpeed * Time.deltaTime);
 
-            // Set the new rotation
-            bulletLauncher.rotation = Quaternion.Euler(0, 0, targetZRotation);
+            // Apply rotation
+            bulletLauncher.rotation *= deltaRotation;
+
+            // Clamp rotation to maxRotationAngle
+            Vector3 currentRotation = bulletLauncher.rotation.eulerAngles;
+            float val = Math.Abs(currentRotation.z);
+            val = Mathf.Clamp(val, 0, 45f);
+            if (currentRotation.z < 0)
+            {
+                val = -val;
+            }
+            currentRotation.z = val;
+
+            Debug.Log("rotating value " + currentRotation);
+            bulletLauncher.rotation = Quaternion.Euler(currentRotation);
         }
 
         private void HandleShoot()
