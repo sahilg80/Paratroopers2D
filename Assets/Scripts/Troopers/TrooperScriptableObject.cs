@@ -8,6 +8,9 @@ namespace Assets.Scripts.Troopers
     public class TrooperScriptableObject : ScriptableObject
     {
         public float MovementSpeed;
-        public Sprite SpriteAfterDestroy;
+        public Sprite CrateSprite;
+        public Sprite ParachuteSprite;
+        public Sprite ParatrooperSprite;
+        public Sprite DeathSprite;
     }
 }

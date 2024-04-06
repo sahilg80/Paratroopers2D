@@ -10,8 +10,9 @@ namespace Assets.Scripts.StateMachine.Troopers
     {
         FREEFALL,        // state when just left the helicopter
         PARACHUTE,       // state when opened parachute
-        ONPLATFORM,      // in this state it will reach to target player
+        ONGROUND,      // in this state it will reach to target player
         CLIMB,           // in this state it will reach climb to its destination
         COMPLETED,       // this state shows task of current troop completed and reached it's destination
+        DEAD,            // it is the state when trooper dies
     }
 }
