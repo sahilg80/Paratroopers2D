@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Main;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,9 +26,20 @@ namespace Assets.Scripts.Bullet
             bulletView.transform.position = position;
         }
 
+        public void SetOrientation(Quaternion rotation)
+        {
+            bulletView.transform.rotation = rotation;
+        }
+
+        public void FireInDirection(float speed, Transform direction)
+        {
+            bulletView.GetRigidBody().velocity = speed * direction.up;
+        }
+
         public void OnCollision()
         {
             Debug.Log("bullet hit target");
+            GameService.Instance.PlayerService.ReturnBulletToPool(this);
         }
     }
 }

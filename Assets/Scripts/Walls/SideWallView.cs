@@ -1,4 +1,5 @@
 using Assets.Scripts.Helicopters;
+using Assets.Scripts.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,10 +16,10 @@ namespace Assets.Scripts.Walls
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            HelicopterView helicopter = collision.GetComponent<HelicopterView>();
-            if (helicopter != null)
+            ICollisionHandler collidedObject = collision.GetComponent<ICollisionHandler>();
+            if (collidedObject != null)
             {
-                helicopter.CollidedWithWall();
+                collidedObject.OnCollisionDetected();
             }
         }
     }

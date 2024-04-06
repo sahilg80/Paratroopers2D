@@ -11,7 +11,11 @@ namespace Assets.Scripts.Main
 {
     public class GameService : GenericMonoSingleton<GameService>
     {
-        //[Header("Player")]
+        [Header("Player")]
+        [SerializeField]
+        private PlayerView playerView;
+        [SerializeField]
+        private PlayerScriptableObject playerSO;
         public PlayerService PlayerService { get; private set; }
 
         [Header("Bullet")]
@@ -35,7 +39,7 @@ namespace Assets.Scripts.Main
         void Start()
         {
             HelicopterService = new HelicopterService(helicopterPrefab, helicopterScriptableObject, leftSpawnLocation, rightSpawnLocation);
-            PlayerService = new PlayerService(bulletPrefab, bulletSO);
+            PlayerService = new PlayerService(bulletPrefab, bulletSO, playerView, playerSO);
             StartCoroutine(HelicopterService.RecurringCall());
         }
 

@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Assets.Scripts.Player
+{
+    [CreateAssetMenu(fileName = "Player", menuName = "ScriptableObjects/PlayerSO")]
+    public class PlayerScriptableObject : ScriptableObject
+    {
+        public float BulletLaunchSpeed;
+        public float RotationSpeed;
+    }
+}

@@ -44,14 +44,20 @@ namespace Assets.Scripts.Helicopters
 
         private void FlipSprite(bool value) => helicopterView.FlipSprite(value);
         
-        public void OnCollisionWithWall()
+        //public void OnCollisionWithWall()
+        //{
+        //    GameService.Instance.HelicopterService.ReturnHelicopterToPool(this);
+        //}
+
+        public void OnCollisionWithObject()
         {
             GameService.Instance.HelicopterService.ReturnHelicopterToPool(this);
         }
 
-        public void OnCollisionWithBullet()
+        public void OnAttackedByBullet()
         {
-            GameService.Instance.HelicopterService.ReturnHelicopterToPool(this);
+            helicopterView.ChangeColliderState(false);
+            helicopterView.SetAnimationToDestroy();
         }
 
     }
