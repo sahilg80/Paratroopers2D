@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Troopers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,17 +9,21 @@ namespace Assets.Scripts.Helicopters
     public class HelicopterService
     {
         private HelicopterPool helicopterPool;
-        private const float spawnRate = 1.5f;
+        private TrooperPool trooperPool;
+        private const float spawnRate = 2.7f;
 
         public HelicopterService(HelicopterView helicopterPrefab, HelicopterScriptableObject helicopterSO,
-            Transform leftSpawnLocation, Transform rightSpawnLocation)
+            Transform leftSpawnLocation, Transform rightSpawnLocation, 
+            TrooperView trooperPrefab, TrooperScriptableObject trooperScriptableObject)
         {
-            helicopterPool = new HelicopterPool(helicopterPrefab, helicopterSO, leftSpawnLocation, rightSpawnLocation);
+            trooperPool = new TrooperPool(trooperPrefab, trooperScriptableObject);
+            helicopterPool = new HelicopterPool(helicopterPrefab, helicopterSO,
+                leftSpawnLocation, rightSpawnLocation, trooperPool);
         }
 
-        // spawn helicopter after every fixed interval of time
+        // spawn helicopter will run on loop after every fixed interval of time
         // helicopter will be spawned in alternate way from left to right
-        public IEnumerator RecurringCall()
+        public IEnumerator UpdateLoop()
         {
             WaitForSeconds delay = new WaitForSeconds(spawnRate);
             bool toggle = false;
@@ -41,6 +46,12 @@ namespace Assets.Scripts.Helicopters
         {
             helicopterPool.ReturnToPool(controller);
             controller.ChangeVisibilityState(false);
+        }
+
+        public void ReturnTrooperToPool(TrooperController trooperToReturn)
+        {
+            trooperPool.ReturnTrooperToPool(trooperToReturn);
+            trooperToReturn.ChangeVisibilityState(false);
         }
 
     }

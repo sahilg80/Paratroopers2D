@@ -10,53 +10,6 @@ namespace Assets.Scripts.Utilities
     /// <typeparam object Type to be pooled = "T"></typeparam>
     public class GenericObjectPool<T> where T : class
     {
-        //protected List<T> inactivePooledItems = new List<T>();
-        
-        //public T GetItemFromPool(T component)
-        //{
-            
-        //    if (inactivePooledItems == null)
-        //    {
-        //        inactivePooledItems = new List<T>();
-        //    }
-
-        //    T item;
-
-        //    if (inactivePooledItems.Count > 0)
-        //    {
-        //        item = inactivePooledItems[0];
-        //        inactivePooledItems.RemoveAt(0);
-        //        return item;
-        //    }
-        //    else
-        //    {
-        //        item = UnityEngine.Object.Instantiate(component);
-        //    }
-
-        //    return item;
-
-        //}
-
-        //public void ReturnItemToPool(T component)
-        //{
-        //    if (inactivePooledItems == null)
-        //    {
-        //        Debug.Log("pool does not exist");
-        //        return;
-        //    }
-        //    ResetObject(component);
-
-        //    inactivePooledItems.Add(component);
-
-        //}
-
-        //private void ResetObject(T objectToDespawn)
-        //{
-        //    objectToDespawn.transform.position = Vector3.zero;
-        //    objectToDespawn.transform.rotation = Quaternion.identity;
-        //    objectToDespawn.gameObject.SetActive(false);
-        //}
-
         public List<PooledItem<T>> pooledItems = new List<PooledItem<T>>();
 
         protected T GetItem()

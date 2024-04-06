@@ -27,7 +27,7 @@ namespace Assets.Scripts.Bullet
         {
             if (controller != null)
             {
-                OnCollision += controller.OnCollision;
+                OnCollision += controller.DeactivateBullet;
             }
         }
 
@@ -35,7 +35,7 @@ namespace Assets.Scripts.Bullet
         {
             if (controller != null)
             {
-                OnCollision -= controller.OnCollision;
+                OnCollision -= controller.DeactivateBullet;
             }
         }
 
@@ -54,12 +54,8 @@ namespace Assets.Scripts.Bullet
             }
         }
 
-        //public void OnCollisionWithTarget()
-        //{
-
-        //}
-
-        public void OnCollisionDetected()
+        // called when helicopter collides with collider placed at boundaries
+        public void OnCollisionWithBoundary()
         {
             Debug.Log("bullet completed my work");
             OnCollision?.Invoke();

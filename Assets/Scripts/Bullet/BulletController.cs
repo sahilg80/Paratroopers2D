@@ -36,7 +36,7 @@ namespace Assets.Scripts.Bullet
             bulletView.GetRigidBody().velocity = speed * direction.up;
         }
 
-        public void OnCollision()
+        public void DeactivateBullet()
         {
             Debug.Log("bullet hit target");
             GameService.Instance.PlayerService.ReturnBulletToPool(this);

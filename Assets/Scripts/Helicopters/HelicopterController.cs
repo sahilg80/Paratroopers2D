@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.Main;
+using Assets.Scripts.Troopers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,13 +13,15 @@ namespace Assets.Scripts.Helicopters
         private HelicopterScriptableObject helicopterSO;
         private Transform leftSpawnLocation;
         private Transform rightSpawnLocation;
+        private TrooperPool trooperPool;
 
         public HelicopterController(HelicopterView helicopterPrefab, HelicopterScriptableObject helicopterScriptableObject,
-            Transform leftSpawnLocation, Transform rightSpawnLocation)
+            Transform leftSpawnLocation, Transform rightSpawnLocation, TrooperPool trooperPool)
         {
             helicopterSO = helicopterScriptableObject;
             this.leftSpawnLocation = leftSpawnLocation;
             this.rightSpawnLocation = rightSpawnLocation;
+            this.trooperPool = trooperPool;
             helicopterView = UnityEngine.Object.Instantiate(helicopterPrefab);
             helicopterView.SetSpeed(helicopterSO.Speed);
             helicopterView.SetController(this);
@@ -44,20 +48,12 @@ namespace Assets.Scripts.Helicopters
 
         private void FlipSprite(bool value) => helicopterView.FlipSprite(value);
         
-        //public void OnCollisionWithWall()
-        //{
-        //    GameService.Instance.HelicopterService.ReturnHelicopterToPool(this);
-        //}
-
-        public void OnCollisionWithObject()
+        public void DeactivateHelicopter() => GameService.Instance.HelicopterService.ReturnHelicopterToPool(this);
+        
+        public void SpawnTrooper()
         {
-            GameService.Instance.HelicopterService.ReturnHelicopterToPool(this);
-        }
-
-        public void OnAttackedByBullet()
-        {
-            helicopterView.ChangeColliderState(false);
-            helicopterView.SetAnimationToDestroy();
+            TrooperController trooperController = trooperPool.GetTrooper();
+            trooperController.SetPosition(helicopterView.GetSpawnPosition());
         }
 
     }

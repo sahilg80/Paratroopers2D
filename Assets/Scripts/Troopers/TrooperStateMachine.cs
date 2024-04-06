@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.Interfaces
+namespace Assets.Scripts.Troopers
 {
-    public interface ICollisionHandler
+    class TrooperStateMachine
     {
-        void OnCollisionWithBoundary();
     }
 }

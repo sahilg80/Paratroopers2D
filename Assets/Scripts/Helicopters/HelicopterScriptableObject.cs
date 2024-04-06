@@ -7,6 +7,6 @@ namespace Assets.Scripts.Helicopters
     [CreateAssetMenu(fileName = "Helicopter", menuName = "ScriptableObjects/HelicopterSO")]
     public class HelicopterScriptableObject : ScriptableObject
     {
-        public int Speed;
+        public float Speed;
     }
 }

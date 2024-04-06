@@ -1,6 +1,7 @@
 using Assets.Scripts.Bullet;
 using Assets.Scripts.Helicopters;
 using Assets.Scripts.Player;
+using Assets.Scripts.Troopers;
 using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,12 +36,19 @@ namespace Assets.Scripts.Main
         private Transform rightSpawnLocation;
         public HelicopterService HelicopterService { get; private set; }
 
+        [Header("Troopers")]
+        [SerializeField]
+        private TrooperView trooperView;
+        [SerializeField]
+        private TrooperScriptableObject trooperSO;
+
         // Start is called before the first frame update
         void Start()
         {
-            HelicopterService = new HelicopterService(helicopterPrefab, helicopterScriptableObject, leftSpawnLocation, rightSpawnLocation);
+            HelicopterService = new HelicopterService(helicopterPrefab, helicopterScriptableObject, 
+                leftSpawnLocation, rightSpawnLocation, trooperView, trooperSO);
             PlayerService = new PlayerService(bulletPrefab, bulletSO, playerView, playerSO);
-            StartCoroutine(HelicopterService.RecurringCall());
+            StartCoroutine(HelicopterService.UpdateLoop());
         }
 
         // Update is called once per frame
