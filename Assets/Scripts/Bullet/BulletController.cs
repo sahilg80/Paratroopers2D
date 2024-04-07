@@ -1,21 +1,16 @@
 ﻿using Assets.Scripts.Main;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Bullet
 {
     public class BulletController
     {
-        private BulletScriptableObject bulletSO;
         private BulletView bulletView;
 
-        public BulletController(BulletView bulletPrefab, BulletScriptableObject bulletScriptableObject)
+        public BulletController(BulletView bulletPrefab)
         {
             bulletView = UnityEngine.Object.Instantiate(bulletPrefab);
-            bulletSO = bulletScriptableObject;
             bulletView.SetController(this);
-            bulletView.SetSpeed(bulletSO.Speed);
             bulletView.SubscribeEvents();
         }
 
@@ -38,7 +33,6 @@ namespace Assets.Scripts.Bullet
 
         public void DeactivateBullet()
         {
-            Debug.Log("bullet hit target");
             GameService.Instance.PlayerService.ReturnBulletToPool(this);
         }
     }

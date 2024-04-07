@@ -1,8 +1,5 @@
 ﻿using Assets.Scripts.Main;
 using Assets.Scripts.Troopers;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Helicopters
@@ -49,7 +46,13 @@ namespace Assets.Scripts.Helicopters
         private void FlipSprite(bool value) => helicopterView.FlipSprite(value);
         
         public void DeactivateHelicopter() => GameService.Instance.HelicopterService.ReturnHelicopterToPool(this);
-        
+
+        public void OnAttackedByBullet()
+        {
+            GameService.Instance.EventService.OnParaTrooperKilled.InvokeEvent(helicopterSO.KillReward);
+            helicopterView.DisableHelicopter();
+        }
+
         public void SpawnTrooper()
         {
             TrooperController trooperController = trooperPool.GetTrooper();

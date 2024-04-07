@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Bullet;
+using Assets.Scripts.Main;
 using System;
 using UnityEngine;
 
@@ -11,8 +12,8 @@ namespace Assets.Scripts.Player
         private Transform playerShootBarrelDirection;
         private Transform bulletLauncher;
         private PlayerScriptableObject playerSO;
-        private const float maxRotationAngle = 45f;
-
+        private PlayerModel playerModel;
+        
         public PlayerController(BulletPool bulletPool, PlayerView playerView, 
             PlayerScriptableObject playerScriptableObject)
         {
@@ -23,57 +24,50 @@ namespace Assets.Scripts.Player
             bulletLauncher = this.playerView.GetBulletLauncher();
             this.playerView.SetController(this);
             this.playerView.SubscribeEvents();
+            playerModel = new PlayerModel();
+        }
+
+        public void OnKilledTarget(int scoreToAdd)
+        {
+            playerModel.SetScore(scoreToAdd);
+            GameService.Instance.UIService.OnKilledParatrooper(playerModel.PlayerScore);
         }
 
         public void PlayerInput()
         {
-            HandleRotate();
-            HandleShoot();
-        }
-
-        private void HandleRotate()
-        {
-            float direction = Input.GetAxis("Horizontal");
-            Quaternion deltaRotation = Quaternion.Euler(0, 0, -direction * playerSO.RotationSpeed * Time.deltaTime);
-
-            // Apply rotation
-            bulletLauncher.rotation *= deltaRotation;
-
-        }
-
-
-        void HandleRot()
-        {
-            float direction = Input.GetAxis("Horizontal");
-            float rotationAmount = -direction * playerSO.RotationSpeed * Time.deltaTime;
-            bulletLauncher.Rotate(0f, 0f, rotationAmount);
-
-            // Clamp rotation to maxRotationAngle
-            Vector3 currentRotation = bulletLauncher.rotation.eulerAngles;
-            currentRotation.z = Mathf.Clamp(currentRotation.z, -45f, 45f);
-            Debug.Log("rotating value " + currentRotation);
-            bulletLauncher.rotation = Quaternion.Euler(currentRotation);
-        }
-
-        private void Handle()
-        {
-            float direction = Input.GetAxis("Horizontal");
-            Quaternion deltaRotation = Quaternion.Euler(0, 0, -direction * playerSO.RotationSpeed * Time.deltaTime);
-
-            // Apply rotation
-            bulletLauncher.rotation *= deltaRotation;
-
-            // Clamp rotation to maxRotationAngle
-            Vector3 currentRotation = bulletLauncher.rotation.eulerAngles;
-            float val = Math.Abs(currentRotation.z);
-            val = Mathf.Clamp(val, 0, 45f);
-            if (currentRotation.z < 0)
+            if (!playerModel.IsGameStarted)
             {
-                val = -val;
+                HandleGameStartInput();
             }
-            currentRotation.z = val;
+            else
+            {
+                HandleRotate();
+                HandleShoot();
+            }
+        }
 
-            Debug.Log("rotating value " + currentRotation);
+        private void HandleGameStartInput()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                GameService.Instance.EventService.OnStartGame.InvokeEvent();
+                playerModel.SetGamePlayStarted(true);
+            }
+        }
+
+        void HandleRotate()
+        {
+            float direction = Input.GetAxis("Horizontal");
+            Quaternion deltaRotation = Quaternion.Euler(0, 0, -direction * playerSO.RotationSpeed * Time.deltaTime);
+
+            // Apply rotation
+            bulletLauncher.rotation *= deltaRotation;
+
+            Vector3 currentRotation = bulletLauncher.rotation.eulerAngles;
+            currentRotation.z = currentRotation.z > 180 ? currentRotation.z - 360 : currentRotation.z;
+            currentRotation.z = Mathf.Clamp(currentRotation.z, -playerSO.MaxRotationAngle, playerSO.MaxRotationAngle);
+
+            // Apply rotation
             bulletLauncher.rotation = Quaternion.Euler(currentRotation);
         }
 

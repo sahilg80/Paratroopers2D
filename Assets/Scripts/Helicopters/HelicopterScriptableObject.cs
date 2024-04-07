@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 namespace Assets.Scripts.Helicopters
@@ -8,5 +7,6 @@ namespace Assets.Scripts.Helicopters
     public class HelicopterScriptableObject : ScriptableObject
     {
         public float Speed;
+        public int KillReward;
     }
 }

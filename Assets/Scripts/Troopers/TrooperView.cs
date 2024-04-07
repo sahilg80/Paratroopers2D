@@ -1,12 +1,10 @@
 ﻿using Assets.Scripts.Interfaces;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Troopers
 {
-    public class TrooperView : MonoBehaviour, IDamageable
+    public class TrooperView : MonoBehaviour, IDamageable, IGroundLandable
     {
         [SerializeField]
         private SpriteRenderer spriteRenderer;
@@ -18,7 +16,8 @@ namespace Assets.Scripts.Troopers
         private Rigidbody2D trooperRigidBody;
         private TrooperController trooperController;
         private event Action OnHitByBullet;
-        private WaitForSeconds deathDelay;
+        private event Action OnUpdateLoop;
+        private event Action OnGroundLanding;
 
         private void OnEnable()
         {
@@ -32,9 +31,9 @@ namespace Assets.Scripts.Troopers
             UnSubscribeEvents();
         }
 
-        private void Start()
+        private void Update()
         {
-            deathDelay = new WaitForSeconds(2f);
+            OnUpdateLoop?.Invoke();
         }
 
         public void SubscribeEvents()
@@ -42,25 +41,23 @@ namespace Assets.Scripts.Troopers
             if (trooperController != null)
             {
                 OnHitByBullet += trooperController.OnAttackedByBullet;
+                OnUpdateLoop += trooperController.UpdateLoop;
+                OnGroundLanding += trooperController.LandedOnGround;
             }
         }
 
         public void SetController(TrooperController controller) => trooperController = controller;
 
+        public void OnTouchGround() => OnGroundLanding?.Invoke();
+
         public void TakeDamage() => OnHitByBullet?.Invoke();
 
-        public void DestroyTrooper(Sprite sprite, Action onSuccess)
+        public void SetTrooperSprite(Sprite sprite) => spriteRenderer.sprite = sprite;
+
+        public void DisableTrooper()
         {
             ChangeColliderState(false);
             ChangeRigidBodyType(false);
-            StartCoroutine(ShowDeath(sprite, onSuccess));
-        }
-
-        private IEnumerator ShowDeath(Sprite sprite, Action onSuccess)
-        {
-            spriteRenderer.sprite = sprite;
-            yield return deathDelay;
-            onSuccess?.Invoke();
         }
 
         private void ChangeColliderState(bool value) => trooperCollider.enabled = value;
@@ -72,6 +69,8 @@ namespace Assets.Scripts.Troopers
             if (trooperController != null)
             {
                 OnHitByBullet -= trooperController.OnAttackedByBullet;
+                OnUpdateLoop -= trooperController.UpdateLoop;
+                OnGroundLanding -= trooperController.LandedOnGround;
             }
         }
 

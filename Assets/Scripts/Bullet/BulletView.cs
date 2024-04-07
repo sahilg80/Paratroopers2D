@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Interfaces;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Bullet
@@ -10,7 +9,6 @@ namespace Assets.Scripts.Bullet
         [SerializeField]
         private Rigidbody2D bulletRigidbody2D;
         private BulletController controller;
-        private float speed;
         private event Action OnCollision;
 
         private void OnEnable()
@@ -42,7 +40,8 @@ namespace Assets.Scripts.Bullet
         public Rigidbody2D GetRigidBody() => bulletRigidbody2D;
         public void SetController(BulletController bulletController) => this.controller = bulletController;
 
-        public void SetSpeed(float value) => speed = value;
+        // called when helicopter collides with collider placed at boundaries
+        public void OnCollisionWithBoundary() => OnCollision?.Invoke();
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
@@ -54,11 +53,5 @@ namespace Assets.Scripts.Bullet
             }
         }
 
-        // called when helicopter collides with collider placed at boundaries
-        public void OnCollisionWithBoundary()
-        {
-            Debug.Log("bullet completed my work");
-            OnCollision?.Invoke();
-        }
     }
 }

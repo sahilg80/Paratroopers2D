@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.Interfaces;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.CollisionDetectors
@@ -12,7 +10,7 @@ namespace Assets.Scripts.CollisionDetectors
             ITriggerTrooper triggerTrooper = collision.GetComponent<ITriggerTrooper>();
             if (triggerTrooper != null)
             {
-                triggerTrooper.OnTriggerStart();
+                triggerTrooper.OnTriggerStartTroppers();
             }
         }
 
@@ -21,7 +19,7 @@ namespace Assets.Scripts.CollisionDetectors
             ITriggerTrooper triggerTrooper = collision.GetComponent<ITriggerTrooper>();
             if (triggerTrooper != null)
             {
-                triggerTrooper.OnTriggerFinish();
+                triggerTrooper.OnTriggerFinishTroopers();
             }
         }
     }

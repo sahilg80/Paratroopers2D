@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 namespace Assets.Scripts.Player
@@ -9,5 +8,6 @@ namespace Assets.Scripts.Player
     {
         public float BulletLaunchSpeed;
         public float RotationSpeed;
+        public float MaxRotationAngle;
     }
 }

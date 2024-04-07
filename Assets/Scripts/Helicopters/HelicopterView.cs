@@ -1,8 +1,6 @@
-﻿using Assets.Scripts.Bullet;
-using Assets.Scripts.Interfaces;
+﻿using Assets.Scripts.Interfaces;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Helicopters
@@ -22,7 +20,8 @@ namespace Assets.Scripts.Helicopters
         private event Action OnJobDone;
         private Vector3 directionToMove;
         private bool isAlive;
-        private event Action OnSpawnTrooper;
+        private event Action OnTriggerSpawnTrooper;
+        private event Action OnHitByBullet;
         private WaitForSeconds troopSpawnRate;
         private Coroutine trooperCoroutine;
 
@@ -56,7 +55,8 @@ namespace Assets.Scripts.Helicopters
             if (controller != null)
             {
                 OnJobDone += controller.DeactivateHelicopter;
-                OnSpawnTrooper += controller.SpawnTrooper;
+                OnTriggerSpawnTrooper += controller.SpawnTrooper;
+                OnHitByBullet += controller.OnAttackedByBullet;
             }
         }
 
@@ -76,32 +76,39 @@ namespace Assets.Scripts.Helicopters
         // called when helicopter collides with collider placed at boundaries
         public void OnCollisionWithBoundary()
         {
-            Debug.Log("completed my work");
             OnJobDone?.Invoke();
         }
 
         public void TakeDamage()
         {
-            Debug.Log("recieved damage from bullet");
             isAlive = false;
-            DestroyHelicopter();
+            OnHitByBullet?.Invoke();
         }
 
-        public void OnTriggerStart()
+        public void DisableHelicopter()
         {
-            StartSpawningTrooper();
+            StopSpawningTrooper();
+            ChangeColliderState(false);
+            animator.SetTrigger("Destroy");
         }
 
-        public void OnTriggerFinish()
+        public void OnTriggerStartTroppers() => StartSpawningTrooper();
+
+        public void OnTriggerFinishTroopers() => StopSpawningTrooper();
+        
+        private void StopSpawningTrooper()
         {
-            StopCoroutine(trooperCoroutine);
+            if (trooperCoroutine != null)
+            {
+                StopCoroutine(trooperCoroutine);
+            }
         }
 
         private IEnumerator SpawnTrooperLoop()
         {
             while (true)
             {
-                OnSpawnTrooper?.Invoke();
+                OnTriggerSpawnTrooper?.Invoke();
                 yield return troopSpawnRate;
             }
         }
@@ -111,20 +118,17 @@ namespace Assets.Scripts.Helicopters
             if (controller != null)
             {
                 OnJobDone -= controller.DeactivateHelicopter;
-                OnSpawnTrooper -= controller.SpawnTrooper;
+                OnTriggerSpawnTrooper -= controller.SpawnTrooper;
+                OnHitByBullet -= controller.OnAttackedByBullet;
             }
         }
 
         private void ChangeColliderState(bool value) => helicopterCollider.enabled = value;
 
-        private void StartSpawningTrooper() => trooperCoroutine = StartCoroutine(SpawnTrooperLoop());
-
-        private void DestroyHelicopter()
+        private void StartSpawningTrooper()
         {
-            StopCoroutine(trooperCoroutine);
-            ChangeColliderState(false);
-            animator.SetTrigger("Destroy");
+            StopSpawningTrooper();
+            trooperCoroutine = StartCoroutine(SpawnTrooperLoop());
         }
-
     }
 }
