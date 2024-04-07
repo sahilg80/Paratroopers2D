@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.Interfaces;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Troopers
@@ -20,8 +18,6 @@ namespace Assets.Scripts.Troopers
         private event Action OnHitByBullet;
         private event Action OnUpdateLoop;
         private event Action OnGroundLanding;
-        //private WaitForSeconds deathDelay;
-        //private TrooperStateMachine stateMachine;
 
         private void OnEnable()
         {
@@ -34,11 +30,6 @@ namespace Assets.Scripts.Troopers
         {
             UnSubscribeEvents();
         }
-
-        //private void Start()
-        //{
-        //    deathDelay = new WaitForSeconds(2f);
-        //}
 
         private void Update()
         {
@@ -57,8 +48,6 @@ namespace Assets.Scripts.Troopers
 
         public void SetController(TrooperController controller) => trooperController = controller;
 
-        //public void SetStateMachine(TrooperStateMachine stateMachine) => this.stateMachine = stateMachine;
-
         public void OnTouchGround() => OnGroundLanding?.Invoke();
 
         public void TakeDamage() => OnHitByBullet?.Invoke();
@@ -70,13 +59,6 @@ namespace Assets.Scripts.Troopers
             ChangeColliderState(false);
             ChangeRigidBodyType(false);
         }
-
-        //private IEnumerator ShowDeath(Sprite sprite, Action onSuccess)
-        //{
-        //    SetTrooperSprite(sprite);
-        //    yield return deathDelay;
-        //    onSuccess?.Invoke();
-        //}
 
         private void ChangeColliderState(bool value) => trooperCollider.enabled = value;
 

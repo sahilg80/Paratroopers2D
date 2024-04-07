@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.Main;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Bullet
@@ -35,7 +33,6 @@ namespace Assets.Scripts.Bullet
 
         public void DeactivateBullet()
         {
-            Debug.Log("bullet hit target");
             GameService.Instance.PlayerService.ReturnBulletToPool(this);
         }
     }

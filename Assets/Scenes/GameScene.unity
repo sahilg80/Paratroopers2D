@@ -1045,7 +1045,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 624153468}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8799999, z: 0}
+  m_LocalPosition: {x: 0, y: 0.96, z: 0}
   m_LocalScale: {x: 0.5, y: 0.2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1318,8 +1318,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013831001}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.45, z: 0}
-  m_LocalScale: {x: 1.3, y: 0.5, z: 2}
+  m_LocalPosition: {x: 0, y: -4.498, z: 0}
+  m_LocalScale: {x: 0.9, y: 0.45, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 296127518}
@@ -1401,7 +1401,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108016308}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.64, z: 0}
+  m_LocalPosition: {x: 0, y: -3.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1643,7 +1643,6 @@ MonoBehaviour:
   playerView: {fileID: 296127519}
   playerSO: {fileID: 11400000, guid: da0edd5d23da58847b6d58c230c9455e, type: 2}
   bulletPrefab: {fileID: 1147804705191066879, guid: 845f6abd0838b3045957e6403da7e340, type: 3}
-  bulletSO: {fileID: 11400000, guid: 2c488784a9380a844b233e5b23fff430, type: 2}
   helicopterScriptableObject: {fileID: 11400000, guid: 62d7c24b7e623904fbc9db8a094f7f0e, type: 2}
   helicopterPrefab: {fileID: 391652228, guid: 68d54d2754157ec4bbbef06c2036bb7a, type: 3}
   leftSpawnLocation: {fileID: 376172193}
@@ -2060,7 +2059,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969710226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.83, z: 0}
+  m_LocalPosition: {x: 0, y: -3.95, z: 0}
   m_LocalScale: {x: 0.8, y: 0.812, z: 8.12}
   m_ConstrainProportionsScale: 0
   m_Children: []

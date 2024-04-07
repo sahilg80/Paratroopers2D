@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Interfaces;
-using System;
 using UnityEngine;
 
 namespace Assets.Scripts.CollisionDetectors

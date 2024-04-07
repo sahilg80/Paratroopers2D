@@ -55,7 +55,7 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private void HandleRotate()
+        void HandleRotate()
         {
             float direction = Input.GetAxis("Horizontal");
             Quaternion deltaRotation = Quaternion.Euler(0, 0, -direction * playerSO.RotationSpeed * Time.deltaTime);
@@ -63,40 +63,11 @@ namespace Assets.Scripts.Player
             // Apply rotation
             bulletLauncher.rotation *= deltaRotation;
 
-        }
-
-        void HandleRot()
-        {
-            float direction = Input.GetAxis("Horizontal");
-            float rotationAmount = -direction * playerSO.RotationSpeed * Time.deltaTime;
-            bulletLauncher.Rotate(0f, 0f, rotationAmount);
-
-            // Clamp rotation to maxRotationAngle
             Vector3 currentRotation = bulletLauncher.rotation.eulerAngles;
-            currentRotation.z = Mathf.Clamp(currentRotation.z, -45f, 45f);
-            Debug.Log("rotating value " + currentRotation);
-            bulletLauncher.rotation = Quaternion.Euler(currentRotation);
-        }
-
-        private void Handle()
-        {
-            float direction = Input.GetAxis("Horizontal");
-            Quaternion deltaRotation = Quaternion.Euler(0, 0, -direction * playerSO.RotationSpeed * Time.deltaTime);
+            currentRotation.z = currentRotation.z > 180 ? currentRotation.z - 360 : currentRotation.z;
+            currentRotation.z = Mathf.Clamp(currentRotation.z, -playerSO.MaxRotationAngle, playerSO.MaxRotationAngle);
 
             // Apply rotation
-            bulletLauncher.rotation *= deltaRotation;
-
-            // Clamp rotation to maxRotationAngle
-            Vector3 currentRotation = bulletLauncher.rotation.eulerAngles;
-            float val = Math.Abs(currentRotation.z);
-            val = Mathf.Clamp(val, 0, 45f);
-            if (currentRotation.z < 0)
-            {
-                val = -val;
-            }
-            currentRotation.z = val;
-
-            Debug.Log("rotating value " + currentRotation);
             bulletLauncher.rotation = Quaternion.Euler(currentRotation);
         }
 

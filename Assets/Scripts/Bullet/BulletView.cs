@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Interfaces;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Bullet
@@ -41,6 +40,9 @@ namespace Assets.Scripts.Bullet
         public Rigidbody2D GetRigidBody() => bulletRigidbody2D;
         public void SetController(BulletController bulletController) => this.controller = bulletController;
 
+        // called when helicopter collides with collider placed at boundaries
+        public void OnCollisionWithBoundary() => OnCollision?.Invoke();
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
             IDamageable collidedObject = collision.gameObject.GetComponent<IDamageable>();
@@ -51,11 +53,5 @@ namespace Assets.Scripts.Bullet
             }
         }
 
-        // called when helicopter collides with collider placed at boundaries
-        public void OnCollisionWithBoundary()
-        {
-            Debug.Log("bullet completed my work");
-            OnCollision?.Invoke();
-        }
     }
 }

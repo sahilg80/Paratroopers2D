@@ -5,8 +5,6 @@ using Assets.Scripts.Player;
 using Assets.Scripts.Troopers;
 using Assets.Scripts.UI;
 using Assets.Scripts.Utilities;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 

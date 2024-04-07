@@ -1,8 +1,6 @@
-﻿using Assets.Scripts.Bullet;
-using Assets.Scripts.Interfaces;
+﻿using Assets.Scripts.Interfaces;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Helicopters
@@ -78,13 +76,11 @@ namespace Assets.Scripts.Helicopters
         // called when helicopter collides with collider placed at boundaries
         public void OnCollisionWithBoundary()
         {
-            Debug.Log("completed my work");
             OnJobDone?.Invoke();
         }
 
         public void TakeDamage()
         {
-            Debug.Log("recieved damage from bullet");
             isAlive = false;
             OnHitByBullet?.Invoke();
         }

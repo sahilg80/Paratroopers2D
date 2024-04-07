@@ -1,11 +1,6 @@
-﻿using Assets.Scripts.StateMachine;
-using Assets.Scripts.StateMachine.Troopers;
+﻿using Assets.Scripts.StateMachine.Troopers;
 using Assets.Scripts.Troopers.ConcreteStates;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assets.Scripts.Troopers
 {

@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.Main;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Troopers
@@ -20,7 +18,6 @@ namespace Assets.Scripts.Troopers
             trooperStateMachine = new TrooperStateMachine(this.trooperView, trooperScriptableObject);
             trooperStateMachine.CreateStates();
             trooperStateMachine.InitializeState();
-            //this.trooperView.SetStateMachine(trooperStateMachine);
         }
 
         public void ChangeVisibilityState(bool value) => trooperView.gameObject.SetActive(value);
@@ -31,10 +28,8 @@ namespace Assets.Scripts.Troopers
         
         public void OnAttackedByBullet()
         {
-            Debug.Log("bullet hit target trooper");
             GameService.Instance.EventService.OnParaTrooperKilled.InvokeEvent(trooperSO.KillReward);
             trooperStateMachine.SwitchState(StateMachine.Troopers.TrooperState.DEAD, DeactivateTrooper);
-            //rooperView.DestroyTrooper(trooperSO.DeathSprite, DeactivateTrooper );
         }
 
         public void LandedOnGround() => trooperStateMachine.SwitchState(StateMachine.Troopers.TrooperState.ONGROUND, null);

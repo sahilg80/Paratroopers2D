@@ -1,7 +1,4 @@
-using Assets.Scripts.Helicopters;
 using Assets.Scripts.Interfaces;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.CollisionDetectors
