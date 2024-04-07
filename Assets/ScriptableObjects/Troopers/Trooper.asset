@@ -17,3 +17,4 @@ MonoBehaviour:
   ParachuteSprite: {fileID: 21300000, guid: 9eaf84100972e2245804e7f20af135ff, type: 3}
   ParatrooperSprite: {fileID: 21300000, guid: 2fbaeaa3860910e47b601345a3fcc9d9, type: 3}
   DeathSprite: {fileID: 21300000, guid: 69a4a70d992a7db4a8ada6eb5b811520, type: 3}
+  KillReward: 10

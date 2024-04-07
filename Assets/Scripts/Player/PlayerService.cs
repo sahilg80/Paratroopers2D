@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Bullet;
+using Assets.Scripts.Main;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,9 @@ namespace Assets.Scripts.Player
         private BulletPool bulletPool;
         private PlayerController playerController;
 
-        public PlayerService(BulletView bulletPrefab, BulletScriptableObject bulletScriptableObject,
-            PlayerView playerView, PlayerScriptableObject playerScriptableObject)
+        public PlayerService(BulletView bulletPrefab, PlayerView playerView, PlayerScriptableObject playerScriptableObject)
         {
-            bulletPool = new BulletPool(bulletPrefab, bulletScriptableObject);
+            bulletPool = new BulletPool(bulletPrefab);
             playerController = new PlayerController(bulletPool, playerView, playerScriptableObject);
         }
 
@@ -24,6 +24,16 @@ namespace Assets.Scripts.Player
         {
             bulletPool.ReturnBulletToPool(bulletToReturn);
             bulletToReturn.ChangeVisibilityState(false);
+        }
+
+        public void SubscribeEvents()
+        {
+            GameService.Instance.EventService.OnParaTrooperKilled.AddListener(playerController.OnKilledTarget);
+        }
+
+        public void UnSubscribeEvents()
+        {
+            GameService.Instance.EventService.OnParaTrooperKilled.RemoveListener(playerController.OnKilledTarget);
         }
 
     }

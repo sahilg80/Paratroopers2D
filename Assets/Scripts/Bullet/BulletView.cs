@@ -10,7 +10,6 @@ namespace Assets.Scripts.Bullet
         [SerializeField]
         private Rigidbody2D bulletRigidbody2D;
         private BulletController controller;
-        private float speed;
         private event Action OnCollision;
 
         private void OnEnable()
@@ -41,8 +40,6 @@ namespace Assets.Scripts.Bullet
 
         public Rigidbody2D GetRigidBody() => bulletRigidbody2D;
         public void SetController(BulletController bulletController) => this.controller = bulletController;
-
-        public void SetSpeed(float value) => speed = value;
 
         private void OnCollisionEnter2D(Collision2D collision)
         {

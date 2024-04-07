@@ -8,5 +8,6 @@ namespace Assets.Scripts.Helicopters
     public class HelicopterScriptableObject : ScriptableObject
     {
         public float Speed;
+        public int KillReward;
     }
 }

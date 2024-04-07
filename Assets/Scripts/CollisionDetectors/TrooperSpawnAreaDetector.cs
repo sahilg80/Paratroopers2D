@@ -12,7 +12,7 @@ namespace Assets.Scripts.CollisionDetectors
             ITriggerTrooper triggerTrooper = collision.GetComponent<ITriggerTrooper>();
             if (triggerTrooper != null)
             {
-                triggerTrooper.OnTriggerStart();
+                triggerTrooper.OnTriggerStartTroppers();
             }
         }
 
@@ -21,7 +21,7 @@ namespace Assets.Scripts.CollisionDetectors
             ITriggerTrooper triggerTrooper = collision.GetComponent<ITriggerTrooper>();
             if (triggerTrooper != null)
             {
-                triggerTrooper.OnTriggerFinish();
+                triggerTrooper.OnTriggerFinishTroopers();
             }
         }
     }

@@ -8,7 +8,7 @@ namespace Assets.Scripts.Interfaces
 {
     public interface ITriggerTrooper
     {
-        void OnTriggerStart();
-        void OnTriggerFinish();
+        void OnTriggerStartTroppers();
+        void OnTriggerFinishTroopers();
     }
 }

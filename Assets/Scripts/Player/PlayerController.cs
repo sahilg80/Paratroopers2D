@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Bullet;
+using Assets.Scripts.Main;
 using System;
 using UnityEngine;
 
@@ -11,8 +12,8 @@ namespace Assets.Scripts.Player
         private Transform playerShootBarrelDirection;
         private Transform bulletLauncher;
         private PlayerScriptableObject playerSO;
-        private const float maxRotationAngle = 45f;
-
+        private PlayerModel playerModel;
+        
         public PlayerController(BulletPool bulletPool, PlayerView playerView, 
             PlayerScriptableObject playerScriptableObject)
         {
@@ -23,12 +24,35 @@ namespace Assets.Scripts.Player
             bulletLauncher = this.playerView.GetBulletLauncher();
             this.playerView.SetController(this);
             this.playerView.SubscribeEvents();
+            playerModel = new PlayerModel();
+        }
+
+        public void OnKilledTarget(int scoreToAdd)
+        {
+            playerModel.SetScore(scoreToAdd);
+            GameService.Instance.UIService.OnKilledParatrooper(playerModel.PlayerScore);
         }
 
         public void PlayerInput()
         {
-            HandleRotate();
-            HandleShoot();
+            if (!playerModel.IsGameStarted)
+            {
+                HandleGameStartInput();
+            }
+            else
+            {
+                HandleRotate();
+                HandleShoot();
+            }
+        }
+
+        private void HandleGameStartInput()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                GameService.Instance.EventService.OnStartGame.InvokeEvent();
+                playerModel.SetGamePlayStarted(true);
+            }
         }
 
         private void HandleRotate()
@@ -40,7 +64,6 @@ namespace Assets.Scripts.Player
             bulletLauncher.rotation *= deltaRotation;
 
         }
-
 
         void HandleRot()
         {

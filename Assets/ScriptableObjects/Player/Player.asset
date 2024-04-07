@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   BulletLaunchSpeed: 10
-  RotationSpeed: 50
+  RotationSpeed: 60
+  MaxRotationAngle: 45

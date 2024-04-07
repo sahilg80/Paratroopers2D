@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Troopers;
+﻿using Assets.Scripts.Main;
+using Assets.Scripts.Troopers;
 using System;
 using System.Collections;
 using System.Collections.Generic;

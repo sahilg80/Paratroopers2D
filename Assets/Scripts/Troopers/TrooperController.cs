@@ -32,6 +32,7 @@ namespace Assets.Scripts.Troopers
         public void OnAttackedByBullet()
         {
             Debug.Log("bullet hit target trooper");
+            GameService.Instance.EventService.OnParaTrooperKilled.InvokeEvent(trooperSO.KillReward);
             trooperStateMachine.SwitchState(StateMachine.Troopers.TrooperState.DEAD, DeactivateTrooper);
             //rooperView.DestroyTrooper(trooperSO.DeathSprite, DeactivateTrooper );
         }

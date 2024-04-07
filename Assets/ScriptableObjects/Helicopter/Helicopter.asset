@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Helicopter
   m_EditorClassIdentifier: 
   Speed: 2.5
+  KillReward: 25

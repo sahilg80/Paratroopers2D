@@ -1,7 +1,9 @@
 using Assets.Scripts.Bullet;
+using Assets.Scripts.Event;
 using Assets.Scripts.Helicopters;
 using Assets.Scripts.Player;
 using Assets.Scripts.Troopers;
+using Assets.Scripts.UI;
 using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,8 +24,6 @@ namespace Assets.Scripts.Main
         [Header("Bullet")]
         [SerializeField]
         private BulletView bulletPrefab;
-        [SerializeField]
-        private BulletScriptableObject bulletSO;
 
         [Header("Helicopter")]
         [SerializeField]
@@ -42,20 +42,39 @@ namespace Assets.Scripts.Main
         [SerializeField]
         private TrooperScriptableObject trooperSO;
 
+        [Header("UI")]
+
+        [SerializeField] 
+        private UIService uiService;
+        public UIService UIService { get => uiService; }
+        public EventService EventService { get; private set; }
+
+
         // Start is called before the first frame update
-        void Start()
+        protected override void Awake()
         {
+            base.Awake();
+            EventService = new EventService();
             HelicopterService = new HelicopterService(helicopterPrefab, helicopterScriptableObject, 
                 leftSpawnLocation, rightSpawnLocation, trooperView, trooperSO);
-            PlayerService = new PlayerService(bulletPrefab, bulletSO, playerView, playerSO);
-            StartCoroutine(HelicopterService.UpdateLoop());
+            PlayerService = new PlayerService(bulletPrefab, playerView, playerSO);
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnEnable()
         {
-
+            PlayerService.SubscribeEvents();
+            UIService.SubscribeToEvents();
+            EventService.OnStartGame.AddListener(OnGameStart);
         }
+
+        private void OnDisable()
+        {
+            PlayerService.UnSubscribeEvents();
+            UIService.UnSubscribeToEvents();
+            EventService.OnStartGame.RemoveListener(OnGameStart);
+        }
+
+        private void OnGameStart() => StartCoroutine(HelicopterService.UpdateLoop());
 
     }
 }

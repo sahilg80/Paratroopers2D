@@ -9,5 +9,6 @@ namespace Assets.Scripts.Player
     {
         public float BulletLaunchSpeed;
         public float RotationSpeed;
+        public float MaxRotationAngle;
     }
 }

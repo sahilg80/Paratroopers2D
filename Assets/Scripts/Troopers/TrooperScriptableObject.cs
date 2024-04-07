@@ -12,5 +12,6 @@ namespace Assets.Scripts.Troopers
         public Sprite ParachuteSprite;
         public Sprite ParatrooperSprite;
         public Sprite DeathSprite;
+        public int KillReward;
     }
 }
