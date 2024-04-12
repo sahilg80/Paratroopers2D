@@ -1,17 +1,18 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Assets.Scripts.Troopers.ConcreteStates
 {
-    public class GroundedState : TrooperBaseState
+    public class CompletedState : TrooperBaseState
     {
         public override void EnterState(TrooperStateMachine stateMachine, Action onSuccess)
         {
-            stateMachine.TrooperView.SetTrooperSprite(stateMachine.TrooperSO.ParatrooperSprite);
+            Debug.Log("Entered in completed state");
         }
 
         public override void ExitState(TrooperStateMachine stateMachine)
         {
-            stateMachine.TrooperView.ChangeRigidBodyType(false);
+
         }
 
         public override void UpdateState(TrooperStateMachine stateMachine)

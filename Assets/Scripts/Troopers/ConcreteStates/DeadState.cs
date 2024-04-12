@@ -18,7 +18,7 @@ namespace Assets.Scripts.Troopers.ConcreteStates
 
         public override void ExitState(TrooperStateMachine stateMachine)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void UpdateState(TrooperStateMachine stateMachine)

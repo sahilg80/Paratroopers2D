@@ -19,7 +19,7 @@ namespace Assets.Scripts.Helicopters
             this.leftSpawnLocation = leftSpawnLocation;
             this.rightSpawnLocation = rightSpawnLocation;
             this.trooperPool = trooperPool;
-            helicopterView = UnityEngine.Object.Instantiate(helicopterPrefab);
+            helicopterView = Object.Instantiate(helicopterPrefab);
             helicopterView.SetSpeed(helicopterSO.Speed);
             helicopterView.SetController(this);
             helicopterView.SubscribeEvents();
@@ -57,6 +57,15 @@ namespace Assets.Scripts.Helicopters
         {
             TrooperController trooperController = trooperPool.GetTrooper();
             trooperController.SetPosition(helicopterView.GetSpawnPosition());
+        }
+
+        public void SubscribeEvents()
+        {
+            GameService.Instance.EventService.OnRequiredTroopersCollected.AddListener(helicopterView.StopSpawningTrooper);
+        }
+        public void UnSubscribeEvents()
+        {
+            GameService.Instance.EventService.OnRequiredTroopersCollected.RemoveListener(helicopterView.StopSpawningTrooper);
         }
 
     }

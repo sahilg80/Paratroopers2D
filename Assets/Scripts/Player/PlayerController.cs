@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Bullet;
 using Assets.Scripts.Main;
-using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Player

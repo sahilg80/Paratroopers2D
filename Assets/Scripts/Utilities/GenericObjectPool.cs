@@ -5,7 +5,7 @@ namespace Assets.Scripts.Utilities
 {
     public class GenericObjectPool<T> where T : class
     {
-        public List<PooledItem<T>> pooledItems = new List<PooledItem<T>>();
+        protected List<PooledItem<T>> pooledItems = new List<PooledItem<T>>();
 
         protected T GetItem()
         {

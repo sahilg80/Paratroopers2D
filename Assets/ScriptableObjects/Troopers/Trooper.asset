@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29004da7427d0374e973571ab802d65b, type: 3}
   m_Name: Trooper
   m_EditorClassIdentifier: 
-  MovementSpeed: 3
+  WalkingSpeed: 5
   CrateSprite: {fileID: 21300000, guid: aa19312ee65017b42bbbc99f96710244, type: 3}
   ParachuteSprite: {fileID: 21300000, guid: 9eaf84100972e2245804e7f20af135ff, type: 3}
   ParatrooperSprite: {fileID: 21300000, guid: 2fbaeaa3860910e47b601345a3fcc9d9, type: 3}

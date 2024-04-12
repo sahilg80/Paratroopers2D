@@ -3,8 +3,9 @@
 
 namespace Assets.Scripts.Interfaces
 {
-    public interface IGroundLandable
+    public interface IGroundLandable<T>
     {
         void OnTouchGround();
+        T GetController();
     }
 }
