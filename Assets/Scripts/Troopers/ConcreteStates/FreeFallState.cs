@@ -16,7 +16,7 @@ namespace Assets.Scripts.Troopers.ConcreteStates
 
         public override void ExitState(TrooperStateMachine stateMachine)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void UpdateState(TrooperStateMachine stateMachine)
@@ -24,7 +24,7 @@ namespace Assets.Scripts.Troopers.ConcreteStates
             timeElapsed += Time.deltaTime;
             if(timeElapsed > waitTime)
             {
-                stateMachine.SwitchState(StateMachine.Troopers.TrooperState.PARACHUTE, null);
+                stateMachine.SwitchState(StateMachine.Troopers.TrooperState.PARACHUTE);
             }
         }
     }

@@ -11,7 +11,7 @@ namespace Assets.Scripts.Troopers.ConcreteStates
 
         public override void ExitState(TrooperStateMachine stateMachine)
         {
-            throw new NotImplementedException();
+            stateMachine.TrooperView.ChangeRigidBodyType(false);
         }
 
         public override void UpdateState(TrooperStateMachine stateMachine)

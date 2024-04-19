@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Bullet;
 using Assets.Scripts.Main;
-using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Player
@@ -13,10 +12,12 @@ namespace Assets.Scripts.Player
         private Transform bulletLauncher;
         private PlayerScriptableObject playerSO;
         private PlayerModel playerModel;
+        private bool isPlayerAlive;
         
         public PlayerController(BulletPool bulletPool, PlayerView playerView, 
             PlayerScriptableObject playerScriptableObject)
         {
+            isPlayerAlive = true;
             this.bulletPool = bulletPool;
             this.playerView = playerView;
             playerSO = playerScriptableObject;
@@ -33,8 +34,11 @@ namespace Assets.Scripts.Player
             GameService.Instance.UIService.OnKilledParatrooper(playerModel.PlayerScore);
         }
 
+        public void OnPlayerKilled() => playerView.SetDeathAnimation();
+
         public void PlayerInput()
         {
+            if (!isPlayerAlive) return;
             if (!playerModel.IsGameStarted)
             {
                 HandleGameStartInput();
@@ -46,6 +50,12 @@ namespace Assets.Scripts.Player
             }
         }
 
+        public void ShowGameOverUI()
+        {
+            isPlayerAlive = false;
+            GameService.Instance.UIService.PlayerDeathUI();
+        }
+
         private void HandleGameStartInput()
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -55,7 +65,7 @@ namespace Assets.Scripts.Player
             }
         }
 
-        void HandleRotate()
+        private void HandleRotate()
         {
             float direction = Input.GetAxis("Horizontal");
             Quaternion deltaRotation = Quaternion.Euler(0, 0, -direction * playerSO.RotationSpeed * Time.deltaTime);

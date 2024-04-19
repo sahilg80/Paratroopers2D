@@ -3,6 +3,7 @@ using Assets.Scripts.Event;
 using Assets.Scripts.Helicopters;
 using Assets.Scripts.Player;
 using Assets.Scripts.Troopers;
+using Assets.Scripts.Troopers.AttackableTroopers;
 using Assets.Scripts.UI;
 using Assets.Scripts.Utilities;
 using UnityEngine;
@@ -36,9 +37,12 @@ namespace Assets.Scripts.Main
 
         [Header("Troopers")]
         [SerializeField]
-        private TrooperView trooperView;
+        private TrooperView trooperPrefab;
         [SerializeField]
-        private TrooperScriptableObject trooperSO;
+        private TrooperScriptableObject trooperScriptableObject;
+        [SerializeField]
+        private AttackableTrooperServiceData attackableTrooperServiceData;
+        private AttackableTrooperService attackableTrooperService;
 
         [Header("UI")]
 
@@ -46,7 +50,7 @@ namespace Assets.Scripts.Main
         private UIService uiService;
         public UIService UIService { get => uiService; }
         public EventService EventService { get; private set; }
-
+        private Coroutine helicopterSpawningCoroutine;
 
         // Start is called before the first frame update
         protected override void Awake()
@@ -54,25 +58,49 @@ namespace Assets.Scripts.Main
             base.Awake();
             EventService = new EventService();
             HelicopterService = new HelicopterService(helicopterPrefab, helicopterScriptableObject, 
-                leftSpawnLocation, rightSpawnLocation, trooperView, trooperSO);
+                leftSpawnLocation, rightSpawnLocation, trooperPrefab,  trooperScriptableObject);
             PlayerService = new PlayerService(bulletPrefab, playerView, playerSO);
+            attackableTrooperService = new AttackableTrooperService(attackableTrooperServiceData);
         }
 
         private void OnEnable()
         {
             PlayerService.SubscribeEvents();
             UIService.SubscribeToEvents();
-            EventService.OnStartGame.AddListener(OnGameStart);
+            attackableTrooperService.SubscribeEvents();
+            EventService.OnStartGame.AddListener(StartHelicopterSpawning);
+            EventService.OnRequiredTroopersCollected.AddListener(OnTroopersRequiredCollected);
+            //EventService.OnPlayerDeath.AddListener(OnPlayerKilled);
         }
 
         private void OnDisable()
         {
             PlayerService.UnSubscribeEvents();
             UIService.UnSubscribeToEvents();
-            EventService.OnStartGame.RemoveListener(OnGameStart);
+            attackableTrooperService.UnSubscribeEvents();
+            EventService.OnStartGame.RemoveListener(StartHelicopterSpawning);
+            EventService.OnRequiredTroopersCollected.RemoveListener(OnTroopersRequiredCollected);
+           // EventService.OnPlayerDeath.RemoveListener(OnPlayerKilled);
         }
 
-        private void OnGameStart() => StartCoroutine(HelicopterService.UpdateLoop());
+        private void StartHelicopterSpawning() => helicopterSpawningCoroutine = StartCoroutine(HelicopterService.UpdateLoop());
+
+        private void OnTroopersRequiredCollected()
+        {
+            if (helicopterSpawningCoroutine != null)
+            {
+                StopCoroutine(helicopterSpawningCoroutine);
+                HelicopterService.StopSpawning();
+                HelicopterService.CheckActiveParatrooper();
+            }
+        }
+
+        private void Update()
+        {
+            attackableTrooperService.UpdateLoop();
+        }
+
+        //private void OnPlayerKilled() => Time.timeScale = 0;
 
     }
 }

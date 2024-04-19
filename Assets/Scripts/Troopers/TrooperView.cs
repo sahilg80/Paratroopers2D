@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Troopers
 {
-    public class TrooperView : MonoBehaviour, IDamageable, IGroundLandable
+    public class TrooperView : MonoBehaviour, IDamageable
     {
         [SerializeField]
         private SpriteRenderer spriteRenderer;
@@ -46,6 +46,8 @@ namespace Assets.Scripts.Troopers
             }
         }
 
+        public TrooperController GetController() => trooperController;
+
         public void SetController(TrooperController controller) => trooperController = controller;
 
         public void OnTouchGround() => OnGroundLanding?.Invoke();
@@ -62,7 +64,7 @@ namespace Assets.Scripts.Troopers
 
         private void ChangeColliderState(bool value) => trooperCollider.enabled = value;
 
-        private void ChangeRigidBodyType(bool value) => trooperRigidBody.simulated = value;
+        public void ChangeRigidBodyType(bool value) => trooperRigidBody.simulated = value;
 
         private void UnSubscribeEvents()
         {

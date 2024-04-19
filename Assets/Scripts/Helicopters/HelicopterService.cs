@@ -1,5 +1,11 @@
-﻿using Assets.Scripts.Troopers;
+﻿
+using Assets.Scripts.Main;
+using Assets.Scripts.Troopers;
+using Assets.Scripts.Troopers.AttackableTroopers;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.Helicopters
@@ -8,10 +14,11 @@ namespace Assets.Scripts.Helicopters
     {
         private HelicopterPool helicopterPool;
         private TrooperPool trooperPool;
+        private bool isTroopersCollected;
         private const float spawnRate = 2.7f;
 
         public HelicopterService(HelicopterView helicopterPrefab, HelicopterScriptableObject helicopterSO,
-            Transform leftSpawnLocation, Transform rightSpawnLocation, 
+            Transform leftSpawnLocation, Transform rightSpawnLocation,
             TrooperView trooperPrefab, TrooperScriptableObject trooperScriptableObject)
         {
             trooperPool = new TrooperPool(trooperPrefab, trooperScriptableObject);
@@ -35,6 +42,8 @@ namespace Assets.Scripts.Helicopters
 
         public void SpawnHelicopter(bool toggle)
         {
+            if (isTroopersCollected) return;
+
             HelicopterController helicopter = helicopterPool.GetHelicopter();
             helicopter.SetPosition(toggle);
             helicopter.ChangeVisibilityState(true);
@@ -52,5 +61,34 @@ namespace Assets.Scripts.Helicopters
             trooperToReturn.ChangeVisibilityState(false);
         }
 
+        public void StopSpawning() => isTroopersCollected = true;
+
+        public async void CheckActiveParatrooper()
+        {
+            await helicopterPool.CheckForActiveHelicopter();
+            await trooperPool.CheckIsAnyTrooperLeftToReach();
+            Debug.Log("calling trooper attack queue");
+            GameService.Instance.EventService.OnTrooperAttackTrigger.InvokeEvent();
+        }
+
+    }
+
+    //[Serializable]
+    //public class HelicopterServiceData
+    //{
+    //    public HelicopterView HelicopterPrefab;
+    //    public HelicopterScriptableObject HelicopterSO;
+    //    public Transform LeftSpawnLocation;
+    //    public Transform RightSpawnLocation;
+    //}
+
+    [Serializable]
+    public class AttackableTrooperServiceData
+    {
+        public AttackableTrooperDetector attackableTrooperDetector;
+        public Transform PlayerPosition;
+        public Transform RightSideGroundedTrooperParent;
+        public Transform LeftSideGroundedTrooperParent;
+        public int StepsToClimbByTroopers;
     }
 }

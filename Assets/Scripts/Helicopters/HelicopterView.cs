@@ -57,6 +57,7 @@ namespace Assets.Scripts.Helicopters
                 OnJobDone += controller.DeactivateHelicopter;
                 OnTriggerSpawnTrooper += controller.SpawnTrooper;
                 OnHitByBullet += controller.OnAttackedByBullet;
+                controller.SubscribeEvents();
             }
         }
 
@@ -96,7 +97,7 @@ namespace Assets.Scripts.Helicopters
 
         public void OnTriggerFinishTroopers() => StopSpawningTrooper();
         
-        private void StopSpawningTrooper()
+        public void StopSpawningTrooper()
         {
             if (trooperCoroutine != null)
             {
@@ -120,6 +121,7 @@ namespace Assets.Scripts.Helicopters
                 OnJobDone -= controller.DeactivateHelicopter;
                 OnTriggerSpawnTrooper -= controller.SpawnTrooper;
                 OnHitByBullet -= controller.OnAttackedByBullet;
+                controller.UnSubscribeEvents();
             }
         }
 
