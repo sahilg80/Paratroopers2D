@@ -1,19 +1,16 @@
-# Paratroopers2D
+Paratroopers Game
 
-This is a 2D game built using Unity 2021.
+Welcome to the Paratroopers game! In this 2D Unity game, you control a player tasked with shooting down helicopters and paratroopers to earn points. Here's how it works:
 
-How to Play:
-
-Press the space button to start the game.
-Helicopters will spawn randomly from both sides of the screen.
-Each helicopter releases paratroopers as it flies.
-Use the space button to shoot bullets and score points by hitting helicopters and paratroopers.
-Your score is displayed on the UI panel at the top of the screen.
-Aim to shoot as many helicopters and paratroopers as possible to maximize your score.
+    1. Starting the Game: Press the space button to begin.
+    2. Gameplay: Helicopters will spawn randomly from both directions, dropping paratroopers. Use the space button to shoot them down.
+    3. Scoring: Each time you hit a helicopter or a paratrooper, your score increases. You can see your score at the top of the UI panel.
+    4. Game Over: If enough paratroopers land on the ground, they'll start advancing towards you. If they reach your position, it's game over.
 
 Key Features:
 
-Utilized Scriptable Objects to manage data for helicopters, paratroopers, and the player.
-Implemented the MVC design pattern to manage entities such as helicopters, paratroopers, players, and bullets.
-Utilized the State design pattern to manage the state of paratroopers after they leave their helicopter, allowing for easy management and transitions between multiple states.
-Employed object pooling to efficiently spawn helicopters, paratroopers, and bullets, optimizing memory usage.
+    1. Scriptable Objects: Used to manage and configure data for helicopters, paratroopers, and the player.
+    2. MVC Design Pattern: Manages entities like helicopters, paratroopers, players, and bullets.
+    3. State Design: Controls the state of paratroopers, making it easy to manage their behavior.
+    4. Object Pooling: Efficiently manages memory by reusing helicopter, paratrooper, and bullet objects.
+    5. Paratrooper AI: Paratroopers have AI that makes them attack the player if enough of them land on the ground.
