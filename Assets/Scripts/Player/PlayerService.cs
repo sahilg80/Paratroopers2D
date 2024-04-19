@@ -23,11 +23,13 @@ namespace Assets.Scripts.Player
         public void SubscribeEvents()
         {
             GameService.Instance.EventService.OnParaTrooperKilled.AddListener(playerController.OnKilledTarget);
+            GameService.Instance.EventService.OnPlayerDeath.AddListener(playerController.OnPlayerKilled);
         }
 
         public void UnSubscribeEvents()
         {
             GameService.Instance.EventService.OnParaTrooperKilled.RemoveListener(playerController.OnKilledTarget);
+            GameService.Instance.EventService.OnPlayerDeath.RemoveListener(playerController.OnPlayerKilled);
         }
 
     }

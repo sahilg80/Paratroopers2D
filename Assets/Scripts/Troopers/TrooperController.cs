@@ -13,8 +13,6 @@ namespace Assets.Scripts.Troopers
         public TrooperController(TrooperView trooperView, TrooperScriptableObject trooperScriptableObject)
         {
             this.TrooperView = Object.Instantiate(trooperView);
-            GameService.Instance.NameCounter = GameService.Instance.NameCounter + 1;
-            this.TrooperView.gameObject.name = "Trooper - "+GameService.Instance.NameCounter.ToString();
             trooperSO = trooperScriptableObject;
             this.TrooperView.SetController(this);
             this.TrooperView.SubscribeEvents();

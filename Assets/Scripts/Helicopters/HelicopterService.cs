@@ -87,7 +87,8 @@ namespace Assets.Scripts.Helicopters
     {
         public AttackableTrooperDetector attackableTrooperDetector;
         public Transform PlayerPosition;
-        public Transform GroundedTrooperParent;
+        public Transform RightSideGroundedTrooperParent;
+        public Transform LeftSideGroundedTrooperParent;
         public int StepsToClimbByTroopers;
     }
 }

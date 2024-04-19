@@ -23,15 +23,16 @@ namespace Assets.Scripts.Troopers.AttackableTroopers
         private List<Vector3> climbingStairs;
         private int currentStairStepLevel;
         private int targetReachedCount;
-        private Transform troopersParent;
+        private Transform rightSideTroopersParent;
+        private Transform leftSideTroopersParent;
         private AttackableTrooperDetector attackableTrooperDetector;
         private Vector3 playerPosition;
-        //private AttackState attackState;
-        private int counter; 
+        private int direction;
 
         public AttackableTrooperController(AttackableTrooperServiceData attackableTrooperServiceData)
         {
-            this.troopersParent = attackableTrooperServiceData.GroundedTrooperParent;
+            this.rightSideTroopersParent = attackableTrooperServiceData.RightSideGroundedTrooperParent;
+            this.leftSideTroopersParent = attackableTrooperServiceData.LeftSideGroundedTrooperParent;
             stairsStepsRequired = attackableTrooperServiceData.StepsToClimbByTroopers;
             this.attackableTrooperDetector = attackableTrooperServiceData.attackableTrooperDetector;
             playerPosition = attackableTrooperServiceData.PlayerPosition.position;
@@ -41,23 +42,16 @@ namespace Assets.Scripts.Troopers.AttackableTroopers
 
         public void TrooperLandedOnGround(TrooperView groundedTrooper)
         {
-            counter = counter + 1;
-            Debug.Log("counter " + counter);
             if (groundedTrooper.transform.position.x < playerPosition.x)
             {
                 leftSideTroopersList.Add(groundedTrooper);
-                Debug.Log("increase left list to " + leftSideTroopersList.Count);
+                groundedTrooper.transform.parent = leftSideTroopersParent;
             }
             else if (groundedTrooper.transform.position.x > playerPosition.x)
             {
                 rightSideTroopersList.Add(groundedTrooper);
-                Debug.Log("increase right list to " +rightSideTroopersList.Count);
+                groundedTrooper.transform.parent = rightSideTroopersParent;
             }
-            else
-            {
-                Debug.Log("not added this " + groundedTrooper.transform.name);
-            }
-            groundedTrooper.transform.parent = troopersParent;
         }
 
         public void UpdateLoop()
@@ -65,7 +59,6 @@ namespace Assets.Scripts.Troopers.AttackableTroopers
             if(waitForCollectingTroopers)
                 CheckTrooperRequiredCompleted();
         }
-
 
         private void InitializeParameters()
         {
@@ -95,45 +88,44 @@ namespace Assets.Scripts.Troopers.AttackableTroopers
         {
             if(rightSideTroopersList.Count >= troopersRequiredToAttack || leftSideTroopersList.Count >= troopersRequiredToAttack)
             {
-                //attackState = AttackState.FinalizingTroop;
                 waitForCollectingTroopers = false;
                 GameService.Instance.EventService.OnRequiredTroopersCollected.InvokeEvent();
             }
         }
 
-        private List<TrooperView> CheckMaximumTrooperSide()
-        {
-            Debug.Log("left list length " + leftSideTroopersList.Count);
-            Debug.Log("right list length " + rightSideTroopersList.Count);
-            if (rightSideTroopersList.Count > leftSideTroopersList.Count)
-                return rightSideTroopersList;
-            else
-                return leftSideTroopersList;
-        }
-
         public void CreateTrooperAttackQueue()
         {
-            Debug.Log("preparing troop");
-            //attackState = AttackState.AttackingPlayer;
-
             List<TrooperView> attackableTroopers = CheckMaximumTrooperSide();
             for(int i = 0; i<attackableTroopers.Count; i++)
             {
                 priorityQueue.Enqueue(attackableTroopers[i].GetController());
-                Debug.Log("enqueing "+attackableTroopers[i].GetController().TrooperView.gameObject.name);
             }
-            Debug.Log("queue size " + priorityQueue.Count);
+
             StartAttackToPlayer();
+        }
+
+        private List<TrooperView> CheckMaximumTrooperSide()
+        {
+            if (rightSideTroopersList.Count > leftSideTroopersList.Count)
+            {
+                direction = 1;
+                return rightSideTroopersList;
+            }
+            else
+            {
+                direction = -1;
+                return leftSideTroopersList;
+            }
         }
 
         private async void StartAttackToPlayer()
         {
             await Task.Delay(1500);
             int value = priorityQueue.Count;
+
             while (priorityQueue.Count > value - troopersRequiredToAttack)
             {
                 TrooperController closestObject = priorityQueue.Dequeue();
-                Debug.Log("trooper selected to attack " + closestObject.TrooperView.gameObject.name);
 
                 UpdateClimbingStairs(closestObject);
 
@@ -144,19 +136,21 @@ namespace Assets.Scripts.Troopers.AttackableTroopers
 
                 if (targetReachedCount < currentStairStepLevel)
                 {
-                    targetPosition = new Vector3(targetPosition.x + 0.5f, targetPosition.y, targetPosition.z);
+                    targetPosition = new Vector3(targetPosition.x + (direction * 0.5f), targetPosition.y, targetPosition.z);
                     targetReachedCount += 1;
                 }
                 else if (currentStairStepLevel == 0)
                 {
                     // kill player;
+                    await Task.Delay(2000);
                     Debug.Log("killed player");
+                    GameService.Instance.EventService.OnPlayerDeath.InvokeEvent();
                 }
                 else
                 {
-                    climbingStairs.Add(new Vector3(targetPosition.x + 0.5f, targetPosition.y, targetPosition.z));
-                    targetPosition = new Vector3(0, targetPosition.y, targetPosition.z);
-                    targetPosition = new Vector3(targetPosition.x - (targetReachedCount-1)/2, targetPosition.y + 0.5f, targetPosition.z);
+                    climbingStairs.Add(new Vector3(targetPosition.x + (direction * 0.5f), targetPosition.y, targetPosition.z));
+                    targetPosition = new Vector3(0, targetPosition.y + 0.5f, targetPosition.z);
+
                     targetReachedCount = 1;
                     currentStairStepLevel -= 1;
                 }

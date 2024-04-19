@@ -101,7 +101,6 @@ namespace Assets.Scripts.Helicopters
         {
             if (trooperCoroutine != null)
             {
-                Debug.Log("stopping tropper spawning");
                 StopCoroutine(trooperCoroutine);
             }
         }

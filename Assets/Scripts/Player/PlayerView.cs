@@ -9,6 +9,10 @@ namespace Assets.Scripts.Player
         private Transform playerShootBarrelDirection;
         [SerializeField]
         private Transform bulletLauncher;
+        [SerializeField]
+        private Animator playerAnimator;
+        [SerializeField]
+        private PlayerBarrelView playerBarrelView;
         private PlayerController playerController;
         private event Action OnPlayerInputRecieved;
 
@@ -37,6 +41,9 @@ namespace Assets.Scripts.Player
             }
         }
 
+
+        public void SetDeathAnimation() => playerAnimator.SetTrigger("Died");
+
         private void UnSubscribeEvents()
         {
             if (playerController != null)
@@ -45,6 +52,10 @@ namespace Assets.Scripts.Player
             }
         }
 
-        public void SetController(PlayerController controller) => playerController = controller;
+        public void SetController(PlayerController controller)
+        {
+            playerController = controller;
+            playerBarrelView.SetController(controller);
+        }
     }
 }

@@ -52,7 +52,6 @@ namespace Assets.Scripts.Main
         public EventService EventService { get; private set; }
         private Coroutine helicopterSpawningCoroutine;
 
-        public int NameCounter;
         // Start is called before the first frame update
         protected override void Awake()
         {
@@ -71,6 +70,7 @@ namespace Assets.Scripts.Main
             attackableTrooperService.SubscribeEvents();
             EventService.OnStartGame.AddListener(StartHelicopterSpawning);
             EventService.OnRequiredTroopersCollected.AddListener(OnTroopersRequiredCollected);
+            //EventService.OnPlayerDeath.AddListener(OnPlayerKilled);
         }
 
         private void OnDisable()
@@ -80,6 +80,7 @@ namespace Assets.Scripts.Main
             attackableTrooperService.UnSubscribeEvents();
             EventService.OnStartGame.RemoveListener(StartHelicopterSpawning);
             EventService.OnRequiredTroopersCollected.RemoveListener(OnTroopersRequiredCollected);
+           // EventService.OnPlayerDeath.RemoveListener(OnPlayerKilled);
         }
 
         private void StartHelicopterSpawning() => helicopterSpawningCoroutine = StartCoroutine(HelicopterService.UpdateLoop());
@@ -88,7 +89,6 @@ namespace Assets.Scripts.Main
         {
             if (helicopterSpawningCoroutine != null)
             {
-                Debug.Log("stopping spawning helicopter");
                 StopCoroutine(helicopterSpawningCoroutine);
                 HelicopterService.StopSpawning();
                 HelicopterService.CheckActiveParatrooper();
@@ -99,6 +99,8 @@ namespace Assets.Scripts.Main
         {
             attackableTrooperService.UpdateLoop();
         }
+
+        //private void OnPlayerKilled() => Time.timeScale = 0;
 
     }
 }
